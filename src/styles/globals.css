@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #040406;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2a241b;
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #504229;
+  }
+}
+
+/* Custom Text Gradient & Gold/Crimson Effects */
+.gold-text-gradient {
+  background: linear-gradient(135deg, #dfb86c 0%, #c5a059 40%, #ebd197 70%, #8e6f30 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.crimson-text-gradient {
+  background: linear-gradient(135deg, #f87171 0%, #dc2626 50%, #7f1d1d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-border-glow {
+  border: 1px solid rgba(197, 160, 89, 0.25);
+  box-shadow: 0 0 20px rgba(197, 160, 89, 0.08), inset 0 0 15px rgba(197, 160, 89, 0.05);
+}
+
+.gold-border-glow:hover {
+  border-color: rgba(197, 160, 89, 0.6);
+  box-shadow: 0 0 30px rgba(197, 160, 89, 0.18), inset 0 0 20px rgba(197, 160, 89, 0.1);
+}
+
+.crimson-border-glow {
+  border: 1px solid rgba(220, 38, 38, 0.35);
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.12), inset 0 0 15px rgba(220, 38, 38, 0.08);
+}
+
+/* Masonic & Medieval Classical Frame */
+.masonic-frame {
+  position: relative;
+}
+
+.masonic-frame::before,
+.masonic-frame::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  z-index: 10;
+  transition: all 0.4s ease;
+}
+
+.masonic-frame::before {
+  top: -2px;
+  left: -2px;
+  border-top: 2px solid #c5a059;
+  border-left: 2px solid #c5a059;
+  box-shadow: -2px -2px 8px rgba(197, 160, 89, 0.4);
+}
+
+.masonic-frame::after {
+  bottom: -2px;
+  right: -2px;
+  border-bottom: 2px solid #dc2626;
+  border-right: 2px solid #dc2626;
+  box-shadow: 2px 2px 8px rgba(220, 38, 38, 0.4);
+}
+
+/* Starfield / Cosmos Background Canvas Overlay */
+.stars-bg {
+  background-image: 
+    radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 40px 70px, #c5a059, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 160px 120px, #c5a059, rgba(0,0,0,0));
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.35;
+}
+
+/* Discrete Cursor Hide on Touch */
+@media (pointer: coarse) {
+  .custom-cursor-element {
+    display: none !important;
+  }
+}
