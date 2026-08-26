@@ -23,6 +23,8 @@ import {
   Search,
   Receipt,
   MessageCircle,
+  Menu,
+  X,
 } from 'lucide-react';
 import {
   DASHBOARD_NOTICES,
@@ -46,6 +48,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   >('tesouraria');
 
   const [adminRole, setAdminRole] = useState<'Venerável Mestre' | 'Secretário' | 'Tesoureiro'>('Tesoureiro');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Datasets
   const [meetings, setMeetings] = useState(DASHBOARD_MEETINGS);
@@ -192,25 +195,102 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       <main className="flex-1 flex flex-col min-w-0 overflow-y-auto bg-masonic-void">
         
         {/* Admin Header */}
-        <header className="bg-masonic-dark/95 backdrop-blur-md border-b border-masonic-gold/30 px-6 py-4 flex items-center justify-between sticky top-0 z-10 shrink-0">
-          <div>
-            <span className="font-mono text-[10px] text-masonic-gold uppercase tracking-widest block font-bold">
-              SISTEMA DE GESTÃO DA DIRETORIA • {adminRole.toUpperCase()}
-            </span>
-            <h1 className="font-serif text-base sm:text-lg font-bold text-masonic-ivory flex items-center space-x-2">
-              <span>Controle da Tesouraria & Quitação de Mensalidades</span>
-            </h1>
+        <header className="bg-masonic-dark/95 backdrop-blur-md border-b border-masonic-gold/30 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between sticky top-0 z-20 shrink-0">
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-1.5 text-masonic-gold border border-masonic-gold/30 rounded-sm"
+              title="Menu Admin"
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+            <div>
+              <span className="font-mono text-[9px] sm:text-[10px] text-masonic-gold uppercase tracking-widest block font-bold">
+                DIRETORIA • {adminRole.toUpperCase()}
+              </span>
+              <h1 className="font-serif text-sm sm:text-lg font-bold text-masonic-ivory truncate">
+                {activeAdminTab === 'tesouraria' && 'Controle da Tesouraria'}
+                {activeAdminTab === 'convocatorias' && 'Convocatórias & Sessões'}
+                {activeAdminTab === 'membros' && 'Gestão do Quadro'}
+                {activeAdminTab === 'documentos' && 'Publicação de Documentos'}
+                {activeAdminTab === 'decretos' && 'Decretos & Atos Oficiais'}
+              </h1>
+            </div>
           </div>
 
-          {onSwitchToMemberView && (
-            <button
-              onClick={onSwitchToMemberView}
-              className="md:hidden px-3 py-1.5 bg-masonic-gold/15 border border-masonic-gold text-masonic-gold text-xs font-mono rounded-sm"
-            >
-              Voltar ao Membro
-            </button>
-          )}
+          <div className="flex items-center space-x-2">
+            {onSwitchToMemberView && (
+              <button
+                onClick={onSwitchToMemberView}
+                className="px-2.5 sm:px-3 py-1.5 bg-masonic-gold/15 border border-masonic-gold text-masonic-gold text-[10px] sm:text-xs font-mono rounded-sm hover:bg-masonic-gold hover:text-masonic-void transition-colors shrink-0"
+              >
+                Voltar ao Membro
+              </button>
+            )}
+          </div>
         </header>
+
+        {/* Mobile Navigation Drawer for Admin */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-masonic-dark border-b border-masonic-gold/30 p-4 space-y-2 z-20 animate-fade-in">
+            <div className="mb-2 pb-2 border-b border-masonic-gold/20 flex items-center justify-between">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-masonic-gold font-bold">Módulos Administrativos</span>
+              <span className="text-[10px] font-mono text-masonic-ivory/60">{adminRole}</span>
+            </div>
+
+            <button
+              onClick={() => {
+                setActiveAdminTab('tesouraria');
+                setIsMobileMenuOpen(false);
+              }}
+              className={`w-full flex items-center space-x-3 px-3 py-2 rounded-sm font-serif text-xs uppercase tracking-wider ${
+                activeAdminTab === 'tesouraria' ? 'bg-masonic-gold text-masonic-void font-bold' : 'text-masonic-ivory/80'
+              }`}
+            >
+              <DollarSign className="w-4 h-4" />
+              <span>Tesouraria & Mensalidades</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setActiveAdminTab('convocatorias');
+                setIsMobileMenuOpen(false);
+              }}
+              className={`w-full flex items-center space-x-3 px-3 py-2 rounded-sm font-serif text-xs uppercase tracking-wider ${
+                activeAdminTab === 'convocatorias' ? 'bg-masonic-gold text-masonic-void font-bold' : 'text-masonic-ivory/80'
+              }`}
+            >
+              <Calendar className="w-4 h-4" />
+              <span>Convocatórias & Sessões</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setActiveAdminTab('membros');
+                setIsMobileMenuOpen(false);
+              }}
+              className={`w-full flex items-center space-x-3 px-3 py-2 rounded-sm font-serif text-xs uppercase tracking-wider ${
+                activeAdminTab === 'membros' ? 'bg-masonic-gold text-masonic-void font-bold' : 'text-masonic-ivory/80'
+              }`}
+            >
+              <Users className="w-4 h-4" />
+              <span>Gestão do Quadro</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setActiveAdminTab('documentos');
+                setIsMobileMenuOpen(false);
+              }}
+              className={`w-full flex items-center space-x-3 px-3 py-2 rounded-sm font-serif text-xs uppercase tracking-wider ${
+                activeAdminTab === 'documentos' ? 'bg-masonic-gold text-masonic-void font-bold' : 'text-masonic-ivory/80'
+              }`}
+            >
+              <FileText className="w-4 h-4" />
+              <span>Publicar Documentos</span>
+            </button>
+          </div>
+        )}
 
         {/* Content Body */}
         <div className="p-4 sm:p-8 space-y-8 max-w-6xl w-full mx-auto flex-1">

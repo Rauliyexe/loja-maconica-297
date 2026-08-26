@@ -79,7 +79,7 @@ export const BrotherGoatChat: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[300]">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[300]">
       {/* Floating Trigger Button: Goat Face Floating with Red Eye Glow on Hover */}
       {!isOpen && (
         <div className="relative group cursor-pointer flex flex-col items-center">
@@ -101,7 +101,7 @@ export const BrotherGoatChat: React.FC = () => {
             <div className="absolute inset-0 rounded-full bg-masonic-gold/20 blur-xl opacity-60 group-hover:bg-masonic-crimson/50 group-hover:blur-2xl transition-all duration-500 -z-10" />
 
             {/* Red Eye Glow Filter Effects overlaid on Hover */}
-            <div className="relative w-20 h-24 sm:w-24 sm:h-28 flex items-center justify-center">
+            <div className="relative w-16 h-20 sm:w-24 sm:h-28 flex items-center justify-center">
               
               {/* Main Floating Goat Face PNG */}
               <img
@@ -125,7 +125,7 @@ export const BrotherGoatChat: React.FC = () => {
 
       {/* Interactive Chat Window Modal */}
       {isOpen && (
-        <div className="w-[360px] sm:w-[420px] h-[540px] bg-gradient-to-b from-masonic-slate via-masonic-card to-masonic-dark border-2 border-masonic-gold/60 rounded-sm shadow-[0_20px_60px_rgba(0,0,0,0.9),0_0_40px_rgba(197,160,89,0.25)] flex flex-col overflow-hidden masonic-frame animate-fade-in">
+        <div className="w-[calc(100vw-2rem)] sm:w-[420px] max-w-[420px] h-[78vh] max-h-[540px] bg-gradient-to-b from-masonic-slate via-masonic-card to-masonic-dark border-2 border-masonic-gold/60 rounded-sm shadow-[0_20px_60px_rgba(0,0,0,0.9),0_0_40px_rgba(197,160,89,0.25)] flex flex-col overflow-hidden masonic-frame animate-fade-in">
           
           {/* Header */}
           <div className="p-4 bg-gradient-to-r from-masonic-dark via-masonic-slate to-masonic-dark border-b border-masonic-gold/30 flex items-center justify-between">

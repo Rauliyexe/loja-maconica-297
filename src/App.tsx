@@ -14,6 +14,8 @@ import { MemberLoginModal } from './components/MemberLoginModal';
 import { MemberDashboard } from './components/MemberDashboard';
 import { AdminDashboard } from './components/AdminDashboard';
 import { GlobalZodiacConstellationsBackground } from './components/GlobalZodiacConstellationsBackground';
+import { GuaranesiaCelestialObservatory } from './components/GuaranesiaCelestialObservatory';
+import { GuaranesiaSkyProvider } from './context/GuaranesiaSkyContext';
 
 export function App() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -39,56 +41,61 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-masonic-void text-masonic-ivory relative font-sans selection:bg-masonic-gold selection:text-masonic-void">
-      {/* Luxury Discrete Cursor */}
-      <CustomCursor />
+    <GuaranesiaSkyProvider>
+      <div className="min-h-screen bg-masonic-void text-masonic-ivory relative font-sans selection:bg-masonic-gold selection:text-masonic-void">
+        {/* Luxury Discrete Cursor */}
+        <CustomCursor />
 
-      {/* Admin Dashboard Overlay (Diretoria & Gestão) */}
-      {isLoggedIn && isAdminView && (
-        <AdminDashboard
-          onLogout={handleLogout}
-          onSwitchToMemberView={() => setIsAdminView(false)}
+        {/* Admin Dashboard Overlay (Diretoria & Gestão) */}
+        {isLoggedIn && isAdminView && (
+          <AdminDashboard
+            onLogout={handleLogout}
+            onSwitchToMemberView={() => setIsAdminView(false)}
+          />
+        )}
+
+        {/* Member Private Dashboard Overlay */}
+        {isLoggedIn && !isAdminView && (
+          <MemberDashboard
+            onLogout={handleLogout}
+            onOpenAdminDashboard={() => setIsAdminView(true)}
+          />
+        )}
+
+        {/* Global Background Ecosystem of 12 Zodiac Constellations Synchronized with Guaranésia */}
+        <GlobalZodiacConstellationsBackground />
+
+        {/* Header Bar */}
+        <Header onOpenLogin={handleOpenLogin} activeSection="hero" />
+
+        {/* Hero Section */}
+        <Hero onOpenLogin={handleOpenLogin} />
+
+        {/* Main GSAP Canvas Transformation: Checkerboard Floor to Lunar Surface */}
+        <FloorToMoonScroll />
+
+        {/* Institutional Sections */}
+        <ALoja />
+        <HistoriaTimeline />
+        <Principios />
+        <Galeria />
+        <Eventos />
+        <Contato />
+
+        {/* Footer */}
+        <Footer onOpenLogin={handleOpenLogin} />
+
+        {/* Guaranésia Celestial Real-Time Observatory Widget & Planisphere Modal */}
+        <GuaranesiaCelestialObservatory />
+
+        {/* Member Area Login Portal Modal */}
+        <MemberLoginModal
+          isOpen={isLoginOpen}
+          onClose={handleCloseLogin}
+          onLoginSuccess={handleLoginSuccess}
         />
-      )}
-
-      {/* Member Private Dashboard Overlay */}
-      {isLoggedIn && !isAdminView && (
-        <MemberDashboard
-          onLogout={handleLogout}
-          onOpenAdminDashboard={() => setIsAdminView(true)}
-        />
-      )}
-
-      {/* Global Background Ecosystem of 12 Zodiac Constellations */}
-      <GlobalZodiacConstellationsBackground />
-
-      {/* Header Bar */}
-      <Header onOpenLogin={handleOpenLogin} activeSection="hero" />
-
-      {/* Hero Section */}
-      <Hero onOpenLogin={handleOpenLogin} />
-
-      {/* Main GSAP Canvas Transformation: Checkerboard Floor to Lunar Surface */}
-      <FloorToMoonScroll />
-
-      {/* Institutional Sections */}
-      <ALoja />
-      <HistoriaTimeline />
-      <Principios />
-      <Galeria />
-      <Eventos />
-      <Contato />
-
-      {/* Footer */}
-      <Footer onOpenLogin={handleOpenLogin} />
-
-      {/* Member Area Login Portal Modal */}
-      <MemberLoginModal
-        isOpen={isLoginOpen}
-        onClose={handleCloseLogin}
-        onLoginSuccess={handleLoginSuccess}
-      />
-    </div>
+      </div>
+    </GuaranesiaSkyProvider>
   );
 }
 

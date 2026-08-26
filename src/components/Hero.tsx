@@ -59,22 +59,27 @@ export const Hero: React.FC<HeroProps> = ({ onOpenLogin }) => {
       <div className="relative z-10 max-w-4xl mx-auto px-4 text-center flex flex-col items-center">
         
         {/* MAJESTIC OFFICIAL EMBLEM LOGO DISPLAY */}
-        <div className="relative mb-6 group cursor-pointer">
+        <div className="relative mb-4 sm:mb-6 group cursor-pointer">
           {/* Radial Red & Gold Aura */}
           <div className="absolute inset-0 rounded-full bg-gradient-to-r from-masonic-crimson/30 via-masonic-gold/20 to-masonic-crimson/30 blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-700 -z-10" />
-          <LodgeEmblemLogo size={210} />
+          <div className="sm:hidden">
+            <LodgeEmblemLogo size={150} />
+          </div>
+          <div className="hidden sm:block">
+            <LodgeEmblemLogo size={210} />
+          </div>
         </div>
 
         {/* Top Masonic Emblem Badge */}
-        <div className="mb-4 inline-flex items-center space-x-3 px-4 py-1.5 rounded-full border border-masonic-gold/40 bg-gradient-to-r from-masonic-crimson-deep/60 via-masonic-slate/85 to-masonic-crimson-deep/60 backdrop-blur-md shadow-[0_0_15px_rgba(220,38,38,0.25)]">
-          <Compass className="w-4 h-4 text-masonic-gold" />
-          <span className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.25em] text-masonic-ivory">
+        <div className="mb-4 inline-flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-masonic-gold/40 bg-gradient-to-r from-masonic-crimson-deep/60 via-masonic-slate/85 to-masonic-crimson-deep/60 backdrop-blur-md shadow-[0_0_15px_rgba(220,38,38,0.25)] max-w-full">
+          <Compass className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-masonic-gold shrink-0" />
+          <span className="font-mono text-[9.5px] xs:text-[11px] sm:text-xs uppercase tracking-[0.18em] sm:tracking-[0.25em] text-masonic-ivory truncate">
             AUG.·. RESP.·. LOJA MAÇÔNICA • OR.·. GUARANÉSIA-MG
           </span>
         </div>
 
         {/* Main Title */}
-        <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-wider text-masonic-ivory uppercase leading-tight mb-3 drop-shadow-2xl">
+        <h1 className="font-serif text-3xl xs:text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-wider text-masonic-ivory uppercase leading-tight mb-3 drop-shadow-2xl">
           PAZ, HARMONIA <br />
           <span className="bg-gradient-to-r from-masonic-gold via-masonic-gold-light to-masonic-gold-dark bg-clip-text text-transparent font-black">
             E CONCÓRDIA

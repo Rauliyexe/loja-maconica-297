@@ -327,7 +327,7 @@ export const FloorToMoonScroll: React.FC = () => {
       className="relative w-full bg-masonic-void"
     >
       {/* Sticky Canvas Container Locked in Viewport during animation */}
-      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden flex flex-col justify-between p-6 sm:p-12 z-10">
+      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden flex flex-col justify-between p-3 sm:p-6 md:p-12 z-10">
         
         {/* ALL-SEEING EYE IN TEMPLE TRANSFORMATION PHASE */}
         <div
@@ -342,14 +342,14 @@ export const FloorToMoonScroll: React.FC = () => {
         {/* VECTOR EARTH ON THE HORIZON */}
         {scrollProgress > 45 && (
           <div
-            className="absolute top-28 right-12 sm:right-24 z-10 transition-all duration-700 pointer-events-none"
+            className="absolute top-20 sm:top-28 right-4 sm:right-24 z-10 transition-all duration-700 pointer-events-none"
             style={{
               opacity: Math.min(1, (scrollProgress - 45) / 30),
-              transform: `scale(${0.7 + (scrollProgress - 45) * 0.006})`,
+              transform: `scale(${0.6 + (scrollProgress - 45) * 0.006})`,
             }}
           >
-            <VectorEarth size={100} opacity={0.9} />
-            <span className="font-mono text-[9px] text-masonic-gold uppercase tracking-[0.25em] block text-center mt-1 opacity-80">
+            <VectorEarth size={80} opacity={0.9} />
+            <span className="font-mono text-[8px] sm:text-[9px] text-masonic-gold uppercase tracking-[0.2em] block text-center mt-1 opacity-80">
               TERRA • COSMOS
             </span>
           </div>
@@ -362,35 +362,35 @@ export const FloorToMoonScroll: React.FC = () => {
         />
 
         {/* Top HUD Display */}
-        <div className="relative z-20 flex items-center justify-between border border-masonic-gold/40 pb-3 pt-3 backdrop-blur-xl bg-gradient-to-r from-masonic-dark/90 via-masonic-slate/95 to-masonic-dark/90 px-6 rounded-sm shadow-[0_4px_25px_rgba(0,0,0,0.8)]">
-          <div className="flex items-center space-x-3">
-            {celestialState === 'sun' && <Sun className="w-5 h-5 text-masonic-gold animate-spin-slow" />}
-            {celestialState === 'dusk' && <Compass className="w-5 h-5 text-masonic-crimson-light" />}
-            {celestialState === 'moon' && <Moon className="w-5 h-5 text-masonic-gold animate-pulse" />}
+        <div className="relative z-20 flex items-center justify-between gap-2 border border-masonic-gold/40 py-2 sm:py-3 backdrop-blur-xl bg-gradient-to-r from-masonic-dark/90 via-masonic-slate/95 to-masonic-dark/90 px-3 sm:px-6 rounded-sm shadow-[0_4px_25px_rgba(0,0,0,0.8)]">
+          <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
+            {celestialState === 'sun' && <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-masonic-gold animate-spin-slow shrink-0" />}
+            {celestialState === 'dusk' && <Compass className="w-4 h-4 sm:w-5 sm:h-5 text-masonic-crimson-light shrink-0" />}
+            {celestialState === 'moon' && <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-masonic-gold animate-pulse shrink-0" />}
             
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-masonic-gold font-extrabold">
+            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-wider sm:tracking-[0.2em] text-masonic-gold font-extrabold truncate">
               {phaseText}
             </span>
           </div>
 
-          <div className="flex items-center space-x-3 font-mono text-xs text-masonic-ivory/90 bg-masonic-void/80 px-3 py-1 rounded border border-masonic-gold/30">
-            <span className="text-masonic-ivory/70">CICLO CELESTE:</span>
-            <span className="text-masonic-gold font-black text-sm">{scrollProgress}%</span>
+          <div className="flex items-center space-x-1.5 sm:space-x-3 font-mono text-[10px] sm:text-xs text-masonic-ivory/90 bg-masonic-void/80 px-2 sm:px-3 py-1 rounded border border-masonic-gold/30 shrink-0">
+            <span className="hidden xs:inline text-masonic-ivory/70">CICLO:</span>
+            <span className="text-masonic-gold font-black text-xs sm:text-sm">{scrollProgress}%</span>
           </div>
         </div>
 
         {/* Floating Center Message Cards */}
-        <div className="relative z-20 max-w-2xl mx-auto text-center my-auto transition-all duration-700">
+        <div className="relative z-20 max-w-2xl mx-auto text-center my-auto transition-all duration-700 px-2">
           {scrollProgress < 35 && (
-            <div className="masonic-frame p-8 sm:p-10 bg-gradient-to-b from-masonic-slate/95 via-masonic-card/95 to-masonic-dark/95 backdrop-blur-xl border border-masonic-gold/50 rounded-sm shadow-[0_15px_50px_rgba(0,0,0,0.9),0_0_30px_rgba(197,160,89,0.2)] animate-fade-in">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-masonic-gold/15 border border-masonic-gold/40 text-masonic-gold font-mono text-[10px] uppercase tracking-[0.3em] mb-4">
-                <Sun className="w-3.5 h-3.5" />
+            <div className="masonic-frame p-5 sm:p-8 md:p-10 bg-gradient-to-b from-masonic-slate/95 via-masonic-card/95 to-masonic-dark/95 backdrop-blur-xl border border-masonic-gold/50 rounded-sm shadow-[0_15px_50px_rgba(0,0,0,0.9),0_0_30px_rgba(197,160,89,0.2)] animate-fade-in max-h-[65vh] overflow-y-auto">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-masonic-gold/15 border border-masonic-gold/40 text-masonic-gold font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-3 sm:mb-4">
+                <Sun className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 <span>CICLO DA MANHÃ • O NASCER DO SOL</span>
               </div>
-              <h2 className="font-serif text-3xl sm:text-4xl text-masonic-ivory font-bold mb-4 tracking-wide uppercase">
+              <h2 className="font-serif text-xl sm:text-3xl md:text-4xl text-masonic-ivory font-bold mb-2 sm:mb-4 tracking-wide uppercase">
                 O Sol Nascente <span className="text-masonic-gold font-black">&</span> A Razão
               </h2>
-              <div className="w-20 h-[2px] bg-gradient-to-r from-transparent via-masonic-gold to-transparent mx-auto mb-4" />
+              <div className="w-16 sm:w-20 h-[2px] bg-gradient-to-r from-transparent via-masonic-gold to-transparent mx-auto mb-2 sm:mb-4" />
               <p className="text-xs sm:text-sm text-masonic-ivory/90 leading-relaxed font-serif italic font-light">
                 O Sol desponta no Oriente, desenhando sua órbita dourada sobre o Templo e iluminando o piso xadrez sob o olhar vigilante da Providência. Representa a clareza da razão, a busca ativa pelo conhecimento e o início dos trabalhos morais.
               </p>
@@ -398,15 +398,15 @@ export const FloorToMoonScroll: React.FC = () => {
           )}
 
           {scrollProgress >= 35 && scrollProgress < 70 && (
-            <div className="masonic-frame p-8 sm:p-10 bg-gradient-to-b from-masonic-crimson-deep/90 via-masonic-card/95 to-masonic-dark/95 backdrop-blur-xl border border-masonic-crimson/50 rounded-sm shadow-[0_15px_50px_rgba(0,0,0,0.9),0_0_35px_rgba(220,38,38,0.25)] animate-fade-in">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-masonic-crimson/20 border border-masonic-crimson/50 text-masonic-crimson-light font-mono text-[10px] uppercase tracking-[0.3em] mb-4">
-                <Compass className="w-3.5 h-3.5" />
+            <div className="masonic-frame p-5 sm:p-8 md:p-10 bg-gradient-to-b from-masonic-crimson-deep/90 via-masonic-card/95 to-masonic-dark/95 backdrop-blur-xl border border-masonic-crimson/50 rounded-sm shadow-[0_15px_50px_rgba(0,0,0,0.9),0_0_35px_rgba(220,38,38,0.25)] animate-fade-in max-h-[65vh] overflow-y-auto">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-masonic-crimson/20 border border-masonic-crimson/50 text-masonic-crimson-light font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-3 sm:mb-4">
+                <Compass className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 <span>CICLO DO OCIDENTE • O POR DO SOL</span>
               </div>
-              <h2 className="font-serif text-3xl sm:text-4xl text-masonic-gold font-bold mb-4 tracking-wide uppercase">
+              <h2 className="font-serif text-xl sm:text-3xl md:text-4xl text-masonic-gold font-bold mb-2 sm:mb-4 tracking-wide uppercase">
                 O Ocidente <span className="text-masonic-crimson-light font-black">&</span> A Transição
               </h2>
-              <div className="w-20 h-[2px] bg-gradient-to-r from-transparent via-masonic-crimson to-transparent mx-auto mb-4" />
+              <div className="w-16 sm:w-20 h-[2px] bg-gradient-to-r from-transparent via-masonic-crimson to-transparent mx-auto mb-2 sm:mb-4" />
               <p className="text-xs sm:text-sm text-masonic-ivory/90 leading-relaxed font-serif italic font-light">
                 O Sol se põe no Ocidente, colorindo o horizonte de tons ambarinos e bronze. É o momento de repouso dos instrumentos de trabalho e início do recolhimento filosófico profundo.
               </p>
@@ -414,15 +414,15 @@ export const FloorToMoonScroll: React.FC = () => {
           )}
 
           {scrollProgress >= 70 && (
-            <div className="masonic-frame p-8 sm:p-10 bg-gradient-to-b from-masonic-slate/95 via-masonic-card/95 to-masonic-void/95 backdrop-blur-xl border border-masonic-gold/60 rounded-sm shadow-[0_15px_50px_rgba(0,0,0,0.9),0_0_40px_rgba(197,160,89,0.3)] animate-fade-in">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-masonic-gold/20 border border-masonic-gold/50 text-masonic-gold-light font-mono text-[10px] uppercase tracking-[0.3em] mb-4">
-                <Moon className="w-3.5 h-3.5" />
+            <div className="masonic-frame p-5 sm:p-8 md:p-10 bg-gradient-to-b from-masonic-slate/95 via-masonic-card/95 to-masonic-void/95 backdrop-blur-xl border border-masonic-gold/60 rounded-sm shadow-[0_15px_50px_rgba(0,0,0,0.9),0_0_40px_rgba(197,160,89,0.3)] animate-fade-in max-h-[65vh] overflow-y-auto">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-masonic-gold/20 border border-masonic-gold/50 text-masonic-gold-light font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-3 sm:mb-4">
+                <Moon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 <span>CICLO DA NOITE • O NASCER DA LUA</span>
               </div>
-              <h2 className="font-serif text-3xl sm:text-4xl text-masonic-ivory font-bold mb-4 tracking-wide uppercase">
+              <h2 className="font-serif text-xl sm:text-3xl md:text-4xl text-masonic-ivory font-bold mb-2 sm:mb-4 tracking-wide uppercase">
                 O Nascer da Lua <span className="text-masonic-gold font-black">&</span> O Cosmos
               </h2>
-              <div className="w-20 h-[2px] bg-gradient-to-r from-transparent via-masonic-gold to-transparent mx-auto mb-4" />
+              <div className="w-16 sm:w-20 h-[2px] bg-gradient-to-r from-transparent via-masonic-gold to-transparent mx-auto mb-2 sm:mb-4" />
               <p className="text-xs sm:text-sm text-masonic-ivory/90 leading-relaxed font-serif italic font-light">
                 A Lua prateada surge no céu estelar, atingindo seu ápice sobre o terreno lunar. A luz refletida guia a contemplação da alma, conectando a matéria à plenitude do universo.
               </p>
@@ -431,15 +431,15 @@ export const FloorToMoonScroll: React.FC = () => {
         </div>
 
         {/* Bottom HUD Directive */}
-        <div className="relative z-20 flex items-center justify-between border border-masonic-gold/30 pt-3 pb-3 backdrop-blur-xl bg-masonic-dark/90 px-6 rounded-sm shadow-[0_-4px_25px_rgba(0,0,0,0.8)]">
-          <div className="flex items-center space-x-2 text-masonic-gold text-xs font-mono font-semibold">
-            <Sparkles className="w-4 h-4 text-masonic-gold" />
-            <span>ÓRBITAS CELESTES EM TEMPO REAL • TEMPLO MAÇÔNICO</span>
+        <div className="relative z-20 flex flex-col sm:flex-row items-center justify-between gap-1.5 sm:gap-0 border border-masonic-gold/30 py-2 sm:py-3 backdrop-blur-xl bg-masonic-dark/90 px-3 sm:px-6 rounded-sm shadow-[0_-4px_25px_rgba(0,0,0,0.8)]">
+          <div className="flex items-center space-x-2 text-masonic-gold text-[10px] sm:text-xs font-mono font-semibold truncate">
+            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-masonic-gold shrink-0" />
+            <span className="truncate">ÓRBITAS CELESTES • TEMPLO MAÇÔNICO</span>
           </div>
 
-          <div className="flex items-center space-x-2 text-masonic-ivory/80 text-xs font-mono font-medium animate-pulse">
-            <span>CONTINUE ROLANDO PARA A HISTÓRIA DA LOJA</span>
-            <ChevronDown className="w-4 h-4 text-masonic-gold" />
+          <div className="flex items-center space-x-1.5 text-masonic-ivory/80 text-[10px] sm:text-xs font-mono font-medium animate-pulse shrink-0">
+            <span>ROLE PARA CONTINUAR</span>
+            <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-masonic-gold" />
           </div>
         </div>
 

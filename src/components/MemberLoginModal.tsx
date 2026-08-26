@@ -135,7 +135,7 @@ export const MemberLoginModal: React.FC<MemberLoginModalProps> = ({
 
       {/* MAIN REDESIGNED MASONIC MODAL CONTAINER */}
       <div
-        className={`relative max-w-[460px] w-full bg-gradient-to-b from-masonic-slate/95 via-masonic-card/95 to-masonic-dark/95 backdrop-blur-3xl border border-masonic-gold/50 rounded-sm p-7 sm:p-9 shadow-[0_0_80px_rgba(197,160,89,0.35)] gentle-card-reveal transform z-10 masonic-frame ${
+        className={`relative max-w-[460px] w-full max-h-[94vh] overflow-y-auto bg-gradient-to-b from-masonic-slate/95 via-masonic-card/95 to-masonic-dark/95 backdrop-blur-3xl border border-masonic-gold/50 rounded-sm p-5 sm:p-9 shadow-[0_0_80px_rgba(197,160,89,0.35)] gentle-card-reveal transform z-10 masonic-frame ${
           animState === 'form-ready'
             ? 'scale-100 opacity-100 translate-y-0 pointer-events-auto'
             : 'scale-95 opacity-0 translate-y-6 pointer-events-none'
@@ -144,17 +144,22 @@ export const MemberLoginModal: React.FC<MemberLoginModalProps> = ({
         {/* Top Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-masonic-ivory/60 hover:text-masonic-gold transition-colors p-1.5 rounded-full hover:bg-masonic-gold/10"
+          className="absolute top-4 right-4 text-masonic-ivory/60 hover:text-masonic-gold transition-colors p-1.5 rounded-full hover:bg-masonic-gold/10 z-20"
           title="Fechar Modal"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* HEADER WITH OFFICIAL LODGE EMBLEM LOGO */}
-        <div className="text-center mb-6 relative z-10 flex flex-col items-center">
-          <div className="mb-3 relative group">
+        <div className="text-center mb-5 sm:mb-6 relative z-10 flex flex-col items-center">
+          <div className="mb-2 sm:mb-3 relative group">
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-masonic-crimson/30 via-masonic-gold/30 to-masonic-crimson/30 blur-xl opacity-75 group-hover:opacity-100 transition-opacity -z-10" />
-            <LodgeEmblemLogo size={110} />
+            <div className="sm:hidden">
+              <LodgeEmblemLogo size={85} />
+            </div>
+            <div className="hidden sm:block">
+              <LodgeEmblemLogo size={110} />
+            </div>
           </div>
 
           <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-masonic-crimson-deep/60 border border-masonic-crimson/50 text-masonic-crimson-light font-mono text-[10px] uppercase tracking-widest mb-1.5 shadow-[0_0_12px_rgba(220,38,38,0.3)]">

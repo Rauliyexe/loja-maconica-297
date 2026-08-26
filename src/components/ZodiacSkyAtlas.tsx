@@ -1,22 +1,38 @@
 import React, { useState } from 'react';
-import { ZODIAC_CONSTELLATIONS, ZodiacConstellation } from '../data/constellationsData';
-import { Sparkles, Compass, Star, ChevronLeft, ChevronRight, Moon } from 'lucide-react';
+import { ZODIAC_CONSTELLATIONS } from '../data/constellationsData';
+import { useGuaranesiaSky } from '../context/GuaranesiaSkyContext';
+import { Compass, ChevronLeft, ChevronRight, MapPin, Eye, Radio, Star } from 'lucide-react';
 
 export const ZodiacSkyAtlas: React.FC = () => {
+  const { skyState, setIsObservatoryModalOpen } = useGuaranesiaSky();
   const [selectedId, setSelectedId] = useState<string>('libra');
+  const [isAutoSyncWithZenith, setIsAutoSyncWithZenith] = useState(false);
+
   const activeConstellation =
-    ZODIAC_CONSTELLATIONS.find((c) => c.id === selectedId) || ZODIAC_CONSTELLATIONS[6];
+    ZODIAC_CONSTELLATIONS.find((c) => c.id === (isAutoSyncWithZenith && skyState.culminatingConstellation.isZodiac ? skyState.culminatingConstellation.id : selectedId)) ||
+    ZODIAC_CONSTELLATIONS[6];
+
+  const posInGuaranesia = skyState.zodiacPositions[activeConstellation.id];
 
   const handleNext = () => {
-    const currentIndex = ZODIAC_CONSTELLATIONS.findIndex((c) => c.id === selectedId);
+    setIsAutoSyncWithZenith(false);
+    const currentIndex = ZODIAC_CONSTELLATIONS.findIndex((c) => c.id === activeConstellation.id);
     const nextIndex = (currentIndex + 1) % ZODIAC_CONSTELLATIONS.length;
     setSelectedId(ZODIAC_CONSTELLATIONS[nextIndex].id);
   };
 
   const handlePrev = () => {
-    const currentIndex = ZODIAC_CONSTELLATIONS.findIndex((c) => c.id === selectedId);
+    setIsAutoSyncWithZenith(false);
+    const currentIndex = ZODIAC_CONSTELLATIONS.findIndex((c) => c.id === activeConstellation.id);
     const prevIndex = (currentIndex - 1 + ZODIAC_CONSTELLATIONS.length) % ZODIAC_CONSTELLATIONS.length;
     setSelectedId(ZODIAC_CONSTELLATIONS[prevIndex].id);
+  };
+
+  const handleSyncZenith = () => {
+    setIsAutoSyncWithZenith(true);
+    if (skyState.culminatingConstellation.isZodiac) {
+      setSelectedId(skyState.culminatingConstellation.id);
+    }
   };
 
   return (
@@ -28,10 +44,10 @@ export const ZodiacSkyAtlas: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-masonic-gold/30 bg-masonic-gold/10 text-masonic-gold font-mono text-xs uppercase tracking-widest mb-4">
-            <Compass className="w-3.5 h-3.5" />
-            <span>ECOSSISTEMA DE CONSTELAÇÕES CELESTES</span>
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-masonic-gold/30 bg-masonic-gold/10 text-masonic-gold font-mono text-xs uppercase tracking-widest mb-4">
+            <Compass className="w-3.5 h-3.5 text-masonic-gold" />
+            <span>ECOSSISTEMA CELESTE • GUARANÉSIA - MG</span>
           </div>
 
           <h2 className="font-serif text-3xl sm:text-5xl font-bold uppercase tracking-wider text-masonic-ivory mb-4">
@@ -40,25 +56,59 @@ export const ZodiacSkyAtlas: React.FC = () => {
 
           <div className="w-24 h-[2px] bg-gradient-to-r from-transparent via-masonic-gold to-transparent mx-auto mb-6" />
 
-          <p className="font-serif text-sm sm:text-base text-masonic-ivory/80 italic leading-relaxed">
-            As doze constelações zodiacais desenhadas no firmamento, refletindo os mistérios da geometria sagrada e o aperfeiçoamento da alma humana.
+          <p className="font-serif text-sm sm:text-base text-masonic-ivory/80 italic leading-relaxed mb-6">
+            As doze constelações zodiacais sincronizadas com a coordenada exata de <strong>Guaranésia (21° 17' 53" S • 46° 48' 16" W)</strong> e o Tempo Sideral Local.
           </p>
+
+          {/* Guaranésia Sky Live Controls */}
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={handleSyncZenith}
+              className={`px-4 py-2 rounded-sm border font-mono text-xs uppercase tracking-wider flex items-center space-x-2 transition-all ${
+                isAutoSyncWithZenith
+                  ? 'bg-masonic-gold text-masonic-void border-masonic-gold font-bold shadow-gold-glow'
+                  : 'bg-masonic-card/90 border-masonic-gold/40 text-masonic-gold hover:bg-masonic-gold/20'
+              }`}
+            >
+              <Radio className="w-3.5 h-3.5" />
+              <span>Sincronizar com Zênite de Guaranésia ({skyState.culminatingConstellation.name.split(' ')[0]})</span>
+            </button>
+
+            <button
+              onClick={() => setIsObservatoryModalOpen(true)}
+              className="px-4 py-2 bg-masonic-slate/80 hover:bg-masonic-slate border border-masonic-gold/30 text-masonic-ivory font-mono text-xs uppercase tracking-wider rounded-sm flex items-center space-x-1.5 transition-colors"
+            >
+              <Eye className="w-3.5 h-3.5 text-masonic-gold" />
+              <span>Abrir Domo Celeste 360°</span>
+            </button>
+          </div>
         </div>
 
         {/* 12 Zodiac Symbol Quick Selector Bar */}
-        <div className="flex items-center justify-center space-x-2 sm:space-x-3 overflow-x-auto pb-4 mb-12 scrollbar-none">
+        <div className="flex items-center justify-center space-x-2 sm:space-x-3 overflow-x-auto pb-4 mb-10 scrollbar-none">
           {ZODIAC_CONSTELLATIONS.map((item) => {
-            const isSelected = item.id === selectedId;
+            const isSelected = item.id === activeConstellation.id;
+            const itemPos = skyState.zodiacPositions[item.id];
+            const isItemVisible = itemPos?.isVisible;
+
             return (
               <button
                 key={item.id}
-                onClick={() => setSelectedId(item.id)}
-                className={`flex flex-col items-center justify-center w-14 h-16 sm:w-16 sm:h-20 rounded-sm border transition-all duration-300 shrink-0 ${
+                onClick={() => {
+                  setIsAutoSyncWithZenith(false);
+                  setSelectedId(item.id);
+                }}
+                className={`relative flex flex-col items-center justify-center w-14 h-16 sm:w-16 sm:h-20 rounded-sm border transition-all duration-300 shrink-0 ${
                   isSelected
-                    ? 'bg-masonic-gold/20 border-masonic-gold shadow-gold-glow scale-110'
+                    ? 'bg-masonic-gold/20 border-masonic-gold shadow-gold-glow scale-105'
                     : 'bg-masonic-card/70 border-masonic-gold/20 hover:border-masonic-gold/50 hover:bg-masonic-slate'
                 }`}
               >
+                {/* Visible in Guaranésia Live Dot */}
+                {isItemVisible && (
+                  <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-emerald-400" title="Visível em Guaranésia agora" />
+                )}
+
                 <span className={`text-xl sm:text-2xl mb-1 ${isSelected ? 'text-masonic-gold' : 'text-masonic-ivory/70'}`}>
                   {item.symbol}
                 </span>
@@ -90,13 +140,6 @@ export const ZodiacSkyAtlas: React.FC = () => {
 
               {/* Constellation Vector Render */}
               <svg className="w-full h-64 text-masonic-gold relative z-10" viewBox="0 0 180 160" fill="none">
-                <defs>
-                  <filter id="starGlow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="3" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                  </filter>
-                </defs>
-
                 {/* Golden Connection Lines */}
                 {activeConstellation.edges.map(([fromIdx, toIdx], i) => {
                   const s1 = activeConstellation.stars[fromIdx];
@@ -120,28 +163,25 @@ export const ZodiacSkyAtlas: React.FC = () => {
                 {/* Star Nodes */}
                 {activeConstellation.stars.map((star, idx) => (
                   <g key={`star-${idx}`}>
-                    {/* Glowing Star Flare */}
                     <circle
                       cx={star.x}
                       cy={star.y}
-                      r={star.name ? 6 : 4}
+                      r={star.name ? 5 : 3.5}
                       fill="#ebd197"
-                      filter="url(#starGlow)"
-                      className="animate-pulse"
+                      opacity="0.9"
                     />
                     <circle
                       cx={star.x}
                       cy={star.y}
-                      r={star.name ? 3 : 2}
+                      r={star.name ? 2.5 : 1.8}
                       fill="#ffffff"
                     />
-                    {/* Star Name Notation */}
                     {star.name && (
                       <text
-                        x={star.x + 8}
+                        x={star.x + 7}
                         y={star.y + 4}
                         fill="#c5a059"
-                        fontSize="7"
+                        fontSize="7.5"
                         fontFamily="Space Mono, monospace"
                         opacity="0.9"
                       >
@@ -152,20 +192,20 @@ export const ZodiacSkyAtlas: React.FC = () => {
                 ))}
               </svg>
 
-              {/* Bottom Badge inside Map */}
+              {/* Bottom Badge inside Map with Guaranésia Coordinates */}
               <div className="mt-4 flex items-center space-x-2 text-[10px] font-mono text-masonic-gold/80 z-10">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>MAPA VETORIAL CELESTE DA CONSTELAÇÃO</span>
+                <MapPin className="w-3.5 h-3.5 text-masonic-gold" />
+                <span>CALIBRADO PARA AS COORDENADAS DE GUARANÉSIA-MG</span>
               </div>
 
             </div>
 
-            {/* Right Side: Information & Masonic Interpretation */}
+            {/* Right Side: Information & Masonic Interpretation & Live Astro Position */}
             <div className="lg:col-span-6 flex flex-col justify-center space-y-4">
               
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <span className="text-4xl">{activeConstellation.symbol}</span>
+                  <span className="text-3xl font-serif text-masonic-gold">{activeConstellation.symbol}</span>
                   <div>
                     <span className="font-mono text-xs text-masonic-gold uppercase tracking-widest block">
                       {activeConstellation.latinName} • ELEMENTO {activeConstellation.element.toUpperCase()}
@@ -180,6 +220,25 @@ export const ZodiacSkyAtlas: React.FC = () => {
                   {activeConstellation.period}
                 </div>
               </div>
+
+              {/* Guaranésia Real-Time Astrometric Coordinates Card */}
+              {posInGuaranesia && (
+                <div className="p-3 bg-masonic-void/90 border border-masonic-gold/30 rounded-sm font-mono text-xs flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <span className={`w-2 h-2 rounded-full ${posInGuaranesia.isVisible ? 'bg-emerald-400' : 'bg-slate-500'}`} />
+                    <span className="text-masonic-ivory">
+                      {posInGuaranesia.isVisible
+                        ? `Visível em Guaranésia agora (${posInGuaranesia.compassDirection})`
+                        : 'Abaixo do horizonte de Guaranésia'}
+                    </span>
+                  </div>
+
+                  <div className="text-right text-masonic-gold font-bold">
+                    <span>Altitude: {posInGuaranesia.altitudeDeg.toFixed(1)}°</span>
+                    <span className="text-[10px] text-masonic-ivory/60 ml-2">Az: {posInGuaranesia.azimuthDeg.toFixed(0)}°</span>
+                  </div>
+                </div>
+              )}
 
               <div className="w-full h-[1px] bg-gradient-to-r from-masonic-gold/40 via-masonic-gold/10 to-transparent" />
 
@@ -203,7 +262,7 @@ export const ZodiacSkyAtlas: React.FC = () => {
                 </button>
 
                 <span className="font-mono text-xs text-masonic-ivory/60">
-                  {ZODIAC_CONSTELLATIONS.findIndex((c) => c.id === selectedId) + 1} / 12
+                  {ZODIAC_CONSTELLATIONS.findIndex((c) => c.id === activeConstellation.id) + 1} / 12
                 </span>
 
                 <button

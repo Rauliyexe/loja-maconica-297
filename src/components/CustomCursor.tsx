@@ -47,7 +47,7 @@ export const CustomCursor: React.FC = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="custom-cursor-element pointer-events-none fixed inset-0 z-[9999] overflow-hidden">
+    <div className="custom-cursor-element hidden md:block pointer-events-none fixed inset-0 z-[9999] overflow-hidden">
       {/* Central Geometric Gold Dot */}
       <div
         className="fixed h-2 w-2 rounded-full bg-masonic-gold shadow-[0_0_8px_#c5a059] transition-transform duration-75 ease-out"
